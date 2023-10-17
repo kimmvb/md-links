@@ -8,5 +8,9 @@
     "createdAt": "2023-09-04T18:43:43.114Z",
     "version": "6.7.0",
     "commit": "1e61f863787ca573e7e7235dfba9b94c0a4efae3"
+  },
+  "dependencies": {
+    "axios": "^1.5.1",
+    "colors": "^1.4.0"
   }
 }
