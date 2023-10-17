@@ -3,24 +3,32 @@
 const fs = require("fs");
 
 function findLinks(filePath) {
-  fs.readFile(filePath, "utf-8", (err, data) => {
-    if (err) {
-      console.log("Error: ", err);
-    } else {
-      const fileContent = data;
-      const findLinksRE = /\[([^\]]+)\]\((https?:\/\/[^\)]+)\)/g;
-      const links = [];
-      let match;
+  return new Promise((resolve, reject) => {
+    fs.readFile(filePath, "utf-8", (err, data) => {
+      if (err) {
+        console.log("Error: ", err);
+      } else {
+        const fileContent = data;
+        const findLinksRE = /\[([^\]]+)\]\((https?:\/\/[^\)]+)\)/g;
+        const links = [];
+        let match;
 
-      while ((match = findLinksRE.exec(fileContent)) !== null) {
-        links.push({
-          text: match[1],
-          url: match[2],
-          file: filePath,
-        });
+        while ((match = findLinksRE.exec(fileContent)) !== null) {
+          links.push({
+            text: match[1],
+            url: match[2],
+            file: filePath,
+          });
+        }
+        if (links.length === 0) {
+          reject(
+            new Error(`No se encontraron enlaces en el archivo: ${filePath} ❎`)
+          );
+        } else {
+          resolve(links);
+        }
       }
-      console.log("Links encontrados:", links);
-    }
+    });
   });
 }
 

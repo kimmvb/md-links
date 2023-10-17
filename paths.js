@@ -5,50 +5,41 @@ const fs = require("fs");
 const path = require("path");
 const findLinks = require("./extractlinks");
 
-let mdFile = "prueba/prueba1.md";
-
-function resolvingPath(link) {
-  let pathToAbsolute = "";
-
-  if (path.isAbsolute(link) === false) {
-    const absolutePath = path.resolve(__dirname, link);
-    pathToAbsolute = absolutePath;
-    console.log("La ruta no es absoluta ❎  Transformando a absoluta 🛠️");
-  } else {
-    pathToAbsolute = link;
-    console.log("La ruta es absoluta ✅");
-  }
-
-  if (path.extname(pathToAbsolute) !== ".md") {
-    console.error("¡El archivo no es markdown! ❎");
-    return false;
-  } else {
-    console.log("¡El archivo es markdown! ✅");
-
-    try {
-      fs.accessSync(pathToAbsolute, fs.constants.F_OK);
-      console.log(`${pathToAbsolute} existe ✅`);
-      findLinks(pathToAbsolute);
-      return true;
-    } catch (error) {
-      console.error(`${pathToAbsolute} no existe ❎`);
-      return false;
+function resolvingPath(paths) {
+  return new Promise((resolve, reject) => {
+    if (!fs.existsSync(paths)) {
+      reject(new Error(`El archivo no existe o el ${paths} es incorrecto ❎`));
+      return;
+    } else {
+      console.log(`${paths} existe ✅`);
     }
-  }
+
+    let pathToAbsolute = "";
+
+    if (!path.isAbsolute(paths)) {
+      const absolutePath = path.resolve(__dirname, paths);
+      pathToAbsolute = absolutePath;
+      console.log("La ruta no es absoluta ❎  Transformando a absoluta 🛠️");
+    } else {
+      pathToAbsolute = paths;
+      console.log("La ruta es absoluta ✅");
+    }
+
+    if (!/\.(md|mkd|mdwn|mdown|mdtxt|mdtext|markdown|text)$/i.test(path.extname(pathToAbsolute))) {
+      reject(new Error("¡El archivo no es markdown! ❎"));
+      return;
+    } else {
+      console.log("¡El archivo es markdown! ✅");
+      findLinks(pathToAbsolute)
+        .then((links) => {
+          resolve(links);
+        })
+        .catch((error) => {
+          console.error(error.message);
+        });
+    }
+  });
 }
 
-/* function verifyPath(link) {
-  const result = resolvingPath(link);
+module.exports = resolvingPath;
 
-  if (result === true) {
-    console.log("Se cumplieron las condiciones necesarias ✅");
-    return true;
-  } else {
-    console.error("No se cumplieron las condiciones necesarias ❎");
-    return false;
-  }
-} */
-
-resolvingPath(mdFile);
-
-// module.exports = verifyPath;
