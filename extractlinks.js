@@ -6,7 +6,7 @@ function findLinks(filePath) {
   return new Promise((resolve, reject) => {
     fs.readFile(filePath, "utf-8", (err, data) => {
       if (err) {
-        console.log("Error: ", err);
+        console.log("\nError: \n", err);
       } else {
         const fileContent = data;
         const findLinksRE = /\[([^\]]+)\]\((https?:\/\/[^\)]+)\)/g;
@@ -22,7 +22,9 @@ function findLinks(filePath) {
         }
         if (links.length === 0) {
           reject(
-            new Error(`No se encontraron enlaces en el archivo: ${filePath} ❎`)
+            new Error(
+              `\nNo se encontraron enlaces en el archivo: ${filePath} ❎\n`.red
+            )
           );
         } else {
           resolve(links);

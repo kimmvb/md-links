@@ -1,5 +1,4 @@
-
-const resolvingPath = require('./paths');
+const resolvingPath = require("./paths");
 
 // let mdFile = "prueba/prueba1.md";
 
@@ -13,8 +12,9 @@ function mdLinks(path) {
       // console.log("Links encontrados:", links);
       return links; // También puedes retornar los enlaces para su uso posterior
     })
-    .catch(() => {
-      console.error('El archivo no existe o el path es incorrecto ❎');
+    .catch((error) => {
+      console.error(error.message);
+      // console.error('El archivo no existe o el path es incorrecto ❎');
     });
 }
 
@@ -22,5 +22,5 @@ function mdLinks(path) {
 
 module.exports = mdLinks;
 
-//La función debe ser un módulo importable 
+//La función debe ser un módulo importable
 //La función debe retornar una promesa que resuleva a un arreglo de objetos donde cada link contiene: href, text, file.

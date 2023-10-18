@@ -1,6 +1,7 @@
 //Preguntar si es una ruta relativa o absoluta (path.isAbsolute()) (si es relativa se transforma en absoluta (path.resolve([...paths])))
 //Verificar la existencia de la ruta en el computador (fsPromises.access(path[, mode]))
 //Verficar si la extensión es Markdown (path.extname(path))
+const colors = require("colors");
 const fs = require("fs");
 const path = require("path");
 const findLinks = require("./extractlinks");
@@ -8,10 +9,14 @@ const findLinks = require("./extractlinks");
 function resolvingPath(paths) {
   return new Promise((resolve, reject) => {
     if (!fs.existsSync(paths)) {
-      reject(new Error(`El archivo no existe o el ${paths} es incorrecto ❎`));
+      reject(
+        new Error(
+          `\nEl archivo no existe o la ruta ${paths} es incorrecta ❎\n`.red
+        )
+      );
       return;
     } else {
-      console.log(`${paths} existe ✅`);
+      console.log(`\nLa ruta ${paths} existe ✅`.green);
     }
 
     let pathToAbsolute = "";
@@ -19,17 +24,23 @@ function resolvingPath(paths) {
     if (!path.isAbsolute(paths)) {
       const absolutePath = path.resolve(__dirname, paths);
       pathToAbsolute = absolutePath;
-      console.log("La ruta no es absoluta ❎  Transformando a absoluta 🛠️");
+      console.log(
+        "\nLa ruta no es absoluta ❎  Transformando a absoluta 🛠️".yellow
+      );
     } else {
       pathToAbsolute = paths;
-      console.log("La ruta es absoluta ✅");
+      console.log("\nLa ruta es absoluta ✅".green);
     }
 
-    if (!/\.(md|mkd|mdwn|mdown|mdtxt|mdtext|markdown|text)$/i.test(path.extname(pathToAbsolute))) {
-      reject(new Error("¡El archivo no es markdown! ❎"));
+    if (
+      !/\.(md|mkd|mdwn|mdown|mdtxt|mdtext|markdown|text)$/i.test(
+        path.extname(pathToAbsolute)
+      )
+    ) {
+      reject(new Error("\n¡El archivo no es markdown! ❎\n".red));
       return;
     } else {
-      console.log("¡El archivo es markdown! ✅");
+      console.log("\n¡El archivo es markdown! ✅".green);
       findLinks(pathToAbsolute)
         .then((links) => {
           resolve(links);
@@ -42,4 +53,3 @@ function resolvingPath(paths) {
 }
 
 module.exports = resolvingPath;
-
