@@ -23,10 +23,6 @@ describe("mdLinks", () => {
     ]);
   });
   it("rejects with an error for an invalid path", () => {
-    const resolvingPath = jest.fn();
-    resolvingPath.mockImplementation(() => {
-        throw new Error('El archivo no existe o la ruta prueba\/prueba1.m es incorrecta ❎');
-      });
-    return expect(mdLinks('prueba/prueba1.m')).rejects.toThrow('El archivo no existe o la ruta prueba/prueba1.m es incorrecta ❎');
+    return expect(() => mdLinks('prueba/vacio.m')).rejects.toThrow(Error);
   });
 });

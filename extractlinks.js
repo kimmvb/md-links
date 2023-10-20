@@ -2,12 +2,23 @@
 //Función para encontrar links dentro de un archivo md
 const fs = require("fs");
 
-function findLinks(filePath) {
+function readPath(filePath) {
   return new Promise((resolve, reject) => {
     fs.readFile(filePath, "utf-8", (err, data) => {
       if (err) {
-        console.log("\nError: \n", err);
+        reject(err);
       } else {
+        console.log("\nSe está leyendo en archivo... 🕒\n".yellow);
+        resolve(data);
+      }
+    });
+  });
+}
+
+function findLinks(filePath) {
+  return new Promise((resolve, reject) => {
+    readPath(filePath)
+      .then((data) => {
         const fileContent = data;
         const findLinksRE = /\[([^\]]+)\]\((https?:\/\/[^\)]+)\)/g;
         const links = [];
@@ -20,6 +31,7 @@ function findLinks(filePath) {
             file: filePath,
           });
         }
+
         if (links.length === 0) {
           reject(
             new Error(
@@ -29,9 +41,11 @@ function findLinks(filePath) {
         } else {
           resolve(links);
         }
-      }
-    });
+      })
+      .catch((error) => {
+        reject(error);
+      });
   });
 }
 
-module.exports = findLinks;
+module.exports = { readPath, findLinks };

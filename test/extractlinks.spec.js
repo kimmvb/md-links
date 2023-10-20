@@ -1,6 +1,6 @@
-const findLinks = require("../extractlinks");
+const { readPath, findLinks } = require("../extractlinks");
 
-describe("findLinks", () => {
+describe("extractlinks", () => {
   it("resolves with links for a valid markdown file", () => {
     return expect(
       findLinks("C:\\Users\\Usuario\\md-links\\prueba\\prueba1.md")
@@ -22,20 +22,18 @@ describe("findLinks", () => {
       },
     ]);
   });
-  /* it.only("resolves with links for a valid markdown file", () => {
-    return findLinks("C:/Users/Usuario/md-links/prueba/vacio.md")
-    .then(() => {
-      // La promesa se resolvió cuando no debería
-      fail("La promesa debería haber sido rechazada");
-    })
-    .catch(error => {
-      expect(error.message).toBe("No se encontraron enlaces en el archivo: C:/Users/Usuario/md-links/prueba/vacio.md ❎");
-    });
-    /*
+  it("resolves with the data from a valid markdown file", () => {
     return expect(
-      findLinks("C:/Users/Usuario/md-links/prueba/vacio.md")
-    ).rejects.toThrowError(
-      /No se encontraron enlaces en el archivo: C:\\Users\\Usuario\\md-links\\prueba\\vacio.md ❎/
-    ); 
-  }); */
+      readPath("C:\\Users\\Usuario\\md-links\\prueba\\prueba1.md")
+    ).resolves.toContain("Ejemplo de Archivo Markdown");
+  });
+  it("rejects with an error for an empty file", () => {
+    return expect(findLinks('prueba/vacio.md')).rejects.toThrow(Error);
+  });
+  it("rejects with an error while reading the file (readPath)", () => {
+    return expect(readPath('prueba/vacio.m')).rejects.toThrowError("ENOENT: no such file or directory, open 'C:\\Users\\Usuario\\md-links\\prueba\\vacio.m'");
+  });
+  it("catch an error while treating a promise)", () => {
+    return expect(findLinks('prueba/vacio.m')).rejects.toThrowError("ENOENT: no such file or directory, open 'C:\\Users\\Usuario\\md-links\\prueba\\vacio.m'");
+  });
 });

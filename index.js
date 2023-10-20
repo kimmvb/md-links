@@ -7,15 +7,17 @@ const resolvingPath = require("./paths");
 //Crear una función que retorne una promesa con los links encontrados dentro del archivo md
 //¿Qué promete la promesa? Enviar los links como un arreglo de objetos en el caso de fulfilled y en el caso que sea rechazada un error
 function mdLinks(path) {
-  return resolvingPath(path)
-    .then((links) => {
-      // console.log("Links encontrados:", links);
-      return links; // También puedes retornar los enlaces para su uso posterior
-    })
-    .catch((error) => {
-      console.error(error.message);
-      // console.error('El archivo no existe o el path es incorrecto ❎');
-    });
+  return new Promise((resolve, reject) => {
+    resolvingPath(path)
+      .then((links) => {
+        // console.log("Links encontrados:", links);
+        resolve(links); // También puedes retornar los enlaces para su uso posterior
+      })
+      .catch((error) => {
+        reject(error);
+        // console.error('El archivo no existe o el path es incorrecto ❎');
+      });
+  });
 }
 
 // mdLinks(mdFile);

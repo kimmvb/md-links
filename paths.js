@@ -4,7 +4,7 @@
 const colors = require("colors");
 const fs = require("fs");
 const path = require("path");
-const findLinks = require("./extractlinks");
+const { findLinks } = require("./extractlinks");
 
 function resolvingPath(paths) {
   return new Promise((resolve, reject) => {
@@ -46,7 +46,7 @@ function resolvingPath(paths) {
           resolve(links);
         })
         .catch((error) => {
-          console.error(error.message);
+          reject(error);
         });
     }
   });

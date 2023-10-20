@@ -45,9 +45,7 @@ describe("resolvingPath", () => {
   it("rejects with an error for an invalid file (not Markdown)", () => {
     return expect(resolvingPath('index.js')).rejects.toThrowError(/¡El archivo no es markdown! ❎/);
   });
-  it.only("rejects with an error for an empty file", () => {
-    const findLinks = jest.fn();
-    findLinks.mockRejectedValue();
-    return expect(resolvingPath('prueba/vacio.md')).rejects.toMatch(/No se encontraron enlaces en el archivo: ❎/);
+  it("rejects with an error for an empty file", () => {
+    return expect(resolvingPath('prueba/vacio.md')).rejects.toThrowError("No se encontraron enlaces en el archivo: C:\\Users\\Usuario\\md-links\\prueba\\vacio.md ❎");
   });  
 });
