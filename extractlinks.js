@@ -8,7 +8,7 @@ function readPath(filePath) {
       if (err) {
         reject(err);
       } else {
-        console.log("\nSe está leyendo en archivo... 🕒\n".yellow);
+        console.log("\nSe está leyendo el archivo... 🕒\n".yellow);
         resolve(data);
       }
     });

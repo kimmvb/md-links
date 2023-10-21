@@ -1,17 +1,25 @@
 const resolvingPath = require("./paths");
-
-// let mdFile = "prueba/prueba1.md";
+const makeRequest = require("./validate");
 
 //Función que resuleve el arreglo de links
 
 //Crear una función que retorne una promesa con los links encontrados dentro del archivo md
 //¿Qué promete la promesa? Enviar los links como un arreglo de objetos en el caso de fulfilled y en el caso que sea rechazada un error
-function mdLinks(path) {
+function mdLinks(path, validate) {
   return new Promise((resolve, reject) => {
     resolvingPath(path)
       .then((links) => {
-        // console.log("Links encontrados:", links);
-        resolve(links); // También puedes retornar los enlaces para su uso posterior
+        if (validate === "true") {
+          makeRequest(links)
+            .then((validatedLinks) => {
+              resolve(validatedLinks);
+            })
+            .catch((error) => {
+              reject(error);
+            });
+        } else {
+          resolve(links); // También puedes retornar los enlaces para su uso posterior
+        }
       })
       .catch((error) => {
         reject(error);
@@ -19,8 +27,6 @@ function mdLinks(path) {
       });
   });
 }
-
-// mdLinks(mdFile);
 
 module.exports = mdLinks;
 
