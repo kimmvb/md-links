@@ -25,7 +25,7 @@ function resolvingPath(paths) {
       const absolutePath = path.resolve(__dirname, paths);
       pathToAbsolute = absolutePath;
       console.log(
-        "\nLa ruta no es absoluta ❎  Transformando a absoluta 🛠️".yellow
+        "\nLa ruta no es absoluta ❎  Transformando a absoluta 🛠️\n".yellow
       );
     } else {
       pathToAbsolute = paths;
@@ -40,7 +40,7 @@ function resolvingPath(paths) {
       reject(new Error("\n¡El archivo no es markdown! ❎\n".red));
       return;
     } else {
-      console.log("\n¡El archivo es markdown! ✅".green);
+      console.log("¡El archivo es markdown! ✅".green);
       findLinks(pathToAbsolute)
         .then((links) => {
           resolve(links);

@@ -24,10 +24,9 @@ function makeRequest(links) {
           }
         });
     });
-
+// return Promise.all(promises)
     Promise.all(promises)
       .then(() => {
-        console.log("Validando links... 🕒\n".yellow);
         resolve(links);
       })
       .catch((error) => {

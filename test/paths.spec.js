@@ -17,6 +17,11 @@ describe("resolvingPath", () => {
           text: 'Enlace a GitHub',
           url: 'https://www.github.com',
           file: 'C:\\Users\\Usuario\\md-links\\prueba\\prueba1.md'
+        },
+        {
+          text: 'Enlace a Ejemplo',
+          url: 'https://www.example.com/nonexistent',
+          file: 'C:\\Users\\Usuario\\md-links\\prueba\\prueba1.md'
         }
       ]);
   });
@@ -35,6 +40,11 @@ describe("resolvingPath", () => {
         {
           text: 'Enlace a GitHub',
           url: 'https://www.github.com',
+          file: 'C:\\Users\\Usuario\\md-links\\prueba\\prueba1.md'
+        },
+        {
+          text: 'Enlace a Ejemplo',
+          url: 'https://www.example.com/nonexistent',
           file: 'C:\\Users\\Usuario\\md-links\\prueba\\prueba1.md'
         }
       ]);
