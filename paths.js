@@ -4,6 +4,7 @@
 const colors = require("colors");
 const fs = require("fs");
 const path = require("path");
+// const fileExists = require("./fileExists");
 const { findLinks } = require("./extractlinks");
 
 function resolvingPath(paths) {

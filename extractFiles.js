@@ -1,27 +1,41 @@
 const colors = require("colors");
 const fs = require("fs");
+const path = require("path");
+const fileExists = require("./fileExists");
 
 function extractFiles(directory) {
   return new Promise((resolve, reject) => {
-    if (!fs.existsSync(directory)) {
-      reject(
-        new Error(`\nLa ruta ${directory} es incorrecta o no existe❎\n`.red)
-      );
-      return;
-    } else {
-      console.log(`\nLa ruta ${directory} existe ✅`.green);
-    }
-
-    const fileNames = fs.readdirSync(directory);
-    if (fileNames.length === 0) {
-      reject(new Error(`\nLa ruta ${directory} está vacía ❎\n`.red));
-    } else {
-      resolve(fileNames);
-    }
+    fileExists(directory)
+      .then((stat) => {
+        if (stat === false) {
+          const fileNames = fs.readdirSync(directory);
+          if (fileNames.length === 0) {
+            reject(new Error(`\nLa ruta ${directory} está vacía ❎\n`.red));
+          } else {
+            resolve(fileNames);
+          }
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   });
 }
 
-extractFiles("C:/Users/Usuario/md-links/prueba")
+function completePaths(directory) {
+  return new Promise((resolve, reject) => {
+    extractFiles(directory)
+      .then((fileNames) => {
+        const completePaths = fileNames.map((incompletePath) => path.join(directory, incompletePath));
+        resolve(completePaths);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
+
+completePaths("prueba")
   .then((files) => {
     console.log("\nEstos son los archivos encontrados:\n".rainbow, files);
   })

@@ -7,6 +7,7 @@ const makeRequest = require("./validate");
 //¿Qué promete la promesa? Enviar los links como un arreglo de objetos en el caso de fulfilled y en el caso que sea rechazada un error
 function mdLinks(path, validate) {
   return new Promise((resolve, reject) => {
+    // 
     resolvingPath(path)
       .then((links) => {
         if (validate === "true") {
