@@ -2,6 +2,7 @@ const colors = require("colors");
 const fs = require("fs");
 const path = require("path");
 const fileExists = require("./fileExists");
+const resolvingPath = require("./paths");
 
 function extractFiles(directory) {
   return new Promise((resolve, reject) => {
@@ -27,6 +28,7 @@ function completePaths(directory) {
     extractFiles(directory)
       .then((fileNames) => {
         const completePaths = fileNames.map((incompletePath) => path.join(directory, incompletePath));
+        console.log("\nEstos son los archivos encontrados:\n".rainbow, fileNames);
         resolve(completePaths);
       })
       .catch((error) => {
@@ -37,7 +39,16 @@ function completePaths(directory) {
 
 completePaths("prueba")
   .then((files) => {
-    console.log("\nEstos son los archivos encontrados:\n".rainbow, files);
+    files.forEach((file => {
+      resolvingPath(file)
+      .then((links) => {
+        console.log(links);
+        return links;
+      })
+      .catch((error) => {
+        console.error(error);
+      })
+    }))
   })
   .catch((error) => {
     console.error(error);

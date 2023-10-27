@@ -8,7 +8,7 @@ function readPath(filePath) {
       if (err) {
         reject(err);
       } else {
-        console.log("\nSe está leyendo el archivo (esto podría tardar algunos minutos)... 🕒\n".yellow);
+        console.log(`\nSe está leyendo el archivo '${filePath}' (esto podría tardar algunos minutos)... 🕒\n`.yellow);
         resolve(data);
       }
     });
