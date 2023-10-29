@@ -1,40 +1,32 @@
 const Table = require("cli-table3");
-const mdLinks = require("./index");
+const mdLinks = require("./main_function");
 
-const path = process.argv[2]; // El primer argumento después de "node md-links.js" será la ruta del archivo a analizar.
-const validate = process.argv[3];
+const path = process.argv[2]; //First argument after "node md-links.js" will be the file's path.
+const validate = process.argv[3]; //Second argument will be optional, to validate ('true') or not the links in the file.
 
-/* if (path) {
-  mdLinks(path, validate)
-  .then((links) => {
-    if (Array.isArray(links)) {
-      console.log("Enlaces encontrados:\n".rainbow, links);
-    }
-  })
-  .catch((error) => {
-      console.error(error)
-    }); 
-} else {
-  console.error(
-    "\nPor favor, proporciona la ruta de un archivo Markdown como argumento❗\n"
-      .red
-  );
-}
-*/
 if (path) {
   mdLinks(path, validate)
     .then((links) => {
-      //if (Array.isArray(links)) {
+      //Console table for validated links
       const tableValidated = new Table({
-        head: ["Text".red, "URL".yellow, "File".green, "Status".blue, "StatusText".magenta],
+        head: [
+          "Text".red,
+          "URL".yellow,
+          "File".green,
+          "Status".blue,
+          "StatusText".magenta,
+        ],
         colWidths: [20, 50, 50, 10, 15],
       });
 
+      //Console table for unvalidated links
       const tableNoValidated = new Table({
         head: ["Text".red, "URL".yellow, "File".green],
-        colWidths: [20, 50, 50], 
+        colWidths: [20, 50, 50],
       });
 
+      //If the links do not have status the will be pushed to the unvalidated links table
+      //But if they are validated, they will be pushed to the validated links table
       links.forEach((item) => {
         if (item.status === undefined && item.statusText === undefined) {
           tableNoValidated.push([item.text, item.url, item.file]);
@@ -49,21 +41,22 @@ if (path) {
         }
       });
 
+      //And according to the validate argument one or the other will be shown in the console
       if (validate === "true") {
-        console.log("Enlaces validados:".rainbow);
+        console.log("\nValidated links:".rainbow);
         console.log(tableValidated.toString());
       } else {
-        console.log("Enlaces no validados:".rainbow);
+        console.log("\nLinks:".rainbow);
         console.log(tableNoValidated.toString());
       }
-      //}
     })
     .catch((error) => {
       console.error(error);
     });
 } else {
+  //If there is not a path, the following error will be shown.
   console.error(
-    "\nPor favor, proporciona la ruta de un archivo Markdown como argumento❗\n"
+    "\nPlease, provide a Markdown file path or a directory path as an argument❗\n"
       .red
   );
 }

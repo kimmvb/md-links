@@ -1,15 +1,15 @@
-//importar axios
-//mdLinks debe tener otro parámetro llamado validate
-//parámetro de validate estará conectado con función de mdLinks
-
-//Función de validate
-//Añadir status y ok/fail a cada elemento del objeto
-//Validate será un parámetro opcional (true o false)
-//Status con axios
 const axios = require("axios");
 
-function makeRequest(links) {
+/**
+ * This function checks the status of every link given and add new information to the previous array with links.
+ * @param {Array} links Array with links
+ * @returns {Promise} Returns a promise with an array of validated links (status) if it is resolved or an error if it is rejected 
+ */
+function validateLinks(links) {
   return new Promise((resolve, reject) => {
+    //Through axios, it is checked if the link is working or not.
+    //If the link is either working or not, it is added new keys to it: status and statusText.
+    //Explaining the status of each link.
     const promises = links.map((link) => {
       return axios
         .get(link.url)
@@ -24,16 +24,17 @@ function makeRequest(links) {
           }
         });
     });
-// return Promise.all(promises)
+
+    //Creates a Promise that is resolved with an array of results when all of the provided Promises resolve, or rejected when any Promise is rejected.
     Promise.all(promises)
-      .then(() => {
+      .then((links) => {
         resolve(links);
       })
       .catch((error) => {
-        reject(error); // Rechaza la Promesa si hay errores en las solicitudes
+        reject(error); // The promise is rejected if there are problems during the requests.
       });
   });
 }
 
 
-module.exports = makeRequest;
+module.exports = validateLinks;
