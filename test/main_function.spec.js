@@ -1,4 +1,4 @@
-const mdLinks = require("../index");
+const mdLinks = require("../main_function");
 
 describe("mdLinks", () => {
   it("resolves with links for a valid markdown file", () => {

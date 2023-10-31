@@ -36,18 +36,15 @@ function completePathsExtractLinks(directory) {
         const allPaths = fileNames.map((incompletePath) =>
           path.join(directory, incompletePath)
         );
-        console.log(
-          "\nFiles found:\n".rainbow,
-          allPaths
-        );
-      
+        console.log("\nFiles found:\n".rainbow, allPaths);
+
         const linkPromises = allPaths.map((route) =>
           checkPath(route)
             .then((links) => {
               return links;
             })
             .catch((error) => {
-              console.error(error);
+              reject(console.error(error));
               return error;
             })
         );
@@ -60,4 +57,4 @@ function completePathsExtractLinks(directory) {
   });
 }
 
-module.exports = completePathsExtractLinks;
+module.exports = { extractFiles, completePathsExtractLinks };

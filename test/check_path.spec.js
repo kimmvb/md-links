@@ -1,8 +1,8 @@
-const resolvingPath = require("../paths");
+const checkPath = require("../src/check_path");
 
-describe("resolvingPath", () => {
+describe("checkPath", () => {
   it("resolves with links for a valid markdown file", () => {
-    return expect(resolvingPath('C:\\Users\\Usuario\\md-links\\prueba\\prueba1.md')).resolves.toStrictEqual([
+    return expect(checkPath('C:\\Users\\Usuario\\md-links\\prueba\\prueba1.md')).resolves.toStrictEqual([
         {
           text: 'Enlace a Google',
           url: 'https://www.google.com',
@@ -26,7 +26,7 @@ describe("resolvingPath", () => {
       ]);
   });
   it("resolves with links for a valid markdown file and transfoms to an absolute path", () => {
-    return expect(resolvingPath('prueba/prueba1.md')).resolves.toStrictEqual([
+    return expect(checkPath('prueba/prueba1.md')).resolves.toStrictEqual([
         {
           text: 'Enlace a Google',
           url: 'https://www.google.com',
@@ -49,13 +49,10 @@ describe("resolvingPath", () => {
         }
       ]);
   });
-  it("rejects with an error for an invalid path", () => {
-    return expect(resolvingPath('prueba/prueba1.m')).rejects.toThrowError(/El archivo no existe o la ruta prueba\/prueba1.m es incorrecta ❎/);
-  });
   it("rejects with an error for an invalid file (not Markdown)", () => {
-    return expect(resolvingPath('index.js')).rejects.toThrowError(/¡El archivo no es markdown! ❎/);
+    return expect(checkPath('index.js')).rejects.toThrowError(/The file 'C:\\Users\\Usuario\\md-links\\index.js' is not markdown! ❎/);
   });
   it("rejects with an error for an empty file", () => {
-    return expect(resolvingPath('prueba/vacio.md')).rejects.toThrowError("No se encontraron enlaces en el archivo: C:\\Users\\Usuario\\md-links\\prueba\\vacio.md ❎");
+    return expect(checkPath('prueba/vacio.md')).rejects.toThrowError("There was not a single link inside the file 'C:\\Users\\Usuario\\md-links\\prueba\\vacio.md' ❎");
   });  
 });

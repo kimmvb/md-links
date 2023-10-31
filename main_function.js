@@ -1,5 +1,5 @@
-const pathExistsAndType = require("./path_exists_and_type");
-const validateLinks = require("./validate");
+const pathExistsAndType = require("./src/path_exists_and_type");
+const validateLinks = require("./src/validate");
 
 /**
  * This function extracts the links from a markdown file and validate those links.

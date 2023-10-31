@@ -1,5 +1,5 @@
 require("axios");
-const makeRequest = require("../validate");
+const validateLinks = require("../src/validate");
 
 const originalLinks = [
   {
@@ -26,7 +26,7 @@ const originalLinks = [
 
 describe("validate", () => {
   it("resolves with links validated", () => {
-    return expect(makeRequest(originalLinks)).resolves.toStrictEqual([
+    return expect(validateLinks(originalLinks)).resolves.toStrictEqual([
       {
         text: "Enlace a Google",
         url: "https://www.google.com",
@@ -59,6 +59,6 @@ describe("validate", () => {
   });
   it("rejects with an error for an empty file", () => {
     const empty = '';
-    return expect(makeRequest(empty)).rejects.toThrow(Error);
+    return expect(validateLinks(empty)).rejects.toThrow(Error);
   }); 
 });

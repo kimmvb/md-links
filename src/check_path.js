@@ -15,7 +15,7 @@ function checkPath(paths) {
     //If the path is relative, it is transform to absolute.
     //If the path is absolute, it stays the same.
     if (!path.isAbsolute(paths)) {
-      const pathToAbsolute = path.resolve(__dirname, paths);
+      const pathToAbsolute = path.resolve(".", paths);
       absolutePath = pathToAbsolute;
       console.log(
         `\nThe path '${paths}' is not absolute ❎  Transforming to absolute 🛠️`

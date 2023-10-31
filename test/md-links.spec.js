@@ -1,4 +1,4 @@
-const mdLinks = require("..");
+const mdLinks = require("../main_function");
 
 describe("mdLinks", () => {
   it("should...", () => {

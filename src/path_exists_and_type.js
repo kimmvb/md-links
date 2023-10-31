@@ -1,7 +1,7 @@
 require("colors");
 const fs = require("fs");
 const checkPath = require("./check_path");
-const completePathsExtractLinks = require("./extract_files");
+const { completePathsExtractLinks } = require("./extract_files");
 
 /**
  *This function receives a path and checks if exists or does not exists. If the path exists, checks if it belongs to a file or a directory.
@@ -15,7 +15,7 @@ function pathExistsAndType(paths) {
     if (!fs.existsSync(paths)) {
       reject(
         new Error(
-          `\nThe path '${paths}' is incorrect or does not exists ❎\n`.red
+          `\nThe path '${paths}' is incorrect or does not exist ❎\n`.red
         )
       );
       return;

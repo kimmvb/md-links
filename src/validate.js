@@ -27,7 +27,7 @@ function validateLinks(links) {
 
     //Creates a Promise that is resolved with an array of results when all of the provided Promises resolve, or rejected when any Promise is rejected.
     Promise.all(promises)
-      .then((links) => {
+      .then(() => {
         resolve(links);
       })
       .catch((error) => {
