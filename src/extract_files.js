@@ -1,4 +1,4 @@
-require("colors");
+const colors = require("colors");
 const fs = require("fs");
 const path = require("path");
 const checkPath = require("./check_path");
