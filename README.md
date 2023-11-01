@@ -35,4 +35,8 @@ Typing in your console `true` after the path.
 
 Without validation:
 
+https://github.com/kimmvb/md-links/assets/137528066/6519842c-e84f-4737-abdc-bdce0d4b9d2f
+
 With validation:
+
+https://github.com/kimmvb/md-links/assets/137528066/4f8afb4b-b6ec-4a11-aa2f-f7e9a12d12e6
